@@ -1,5 +1,5 @@
-# tactical-rmm
-Tactical-rmm docker with traefik
+# Tactical-RMM
+This guide will walk you through installing Tactical-RMM within docker and having full support of traefik instead of nginx.
 
 # Cert Dumper
 Run the cert dumper docker compose file first.

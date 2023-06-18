@@ -21,3 +21,6 @@ After running the main docker-compose.yml you need to edit the mesh_data config.
 "certUrl": "https://dash.yourdomain.com:443",`
 
 Restart the trmm-meshcentral container and you are good to go.
+
+# Traefik
+copy the rmm.yml file over to your traefik directory and update the domain name to be yours.

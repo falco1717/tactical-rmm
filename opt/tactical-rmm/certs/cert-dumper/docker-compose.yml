@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+##Copy the acme.json of Traefik2 at volumes: (userdir/docker/rmm in this case)
+  traefik-certs-dumper:
+    image: ldez/traefik-certs-dumper:v2.7.4
+    entrypoint: sh -c '
+      apk add jq
+      && traefik-certs-dumper file --version v2 --watch
+      --source /opt/traefik/acme.json --dest data/certs'
+    volumes:
+      - /opt/tactical-rmm:/data
+      - /opt/traefik/:/opt/traefik
+

@@ -38,5 +38,8 @@ sleep 40
 dashdomain="dash.${domain}"
 sed -i "s/172.50.0.200/$dashdomain/g" /opt/tactical-rmm/mesh_data/config.json
 
+# Updates Mesh_data config.json file port number
+sed -i 's/:4443\b/:443/g' "/opt/tactical-rmm/mesh_data/config.json"
+
 # Restarts mesh central containee
 docker restart trmm-meshcentral

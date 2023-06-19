@@ -3,6 +3,8 @@
 docker compose -f cert-dumper/docker-compose.yml up -d
 sleep 30
 
+
+
 # user input to update domain names in tactical-rmm .env file and cert.sh
 echo "input needed for domain customization, please include full domain. example yourdomain.com"
 read -p "Enter your domain name: " domain
@@ -38,6 +40,10 @@ sleep 40
 # Updates mesh_data config.json file domain entries
 dashdomain="dash.${domain}"
 sed -i "s/172.50.0.200/$dashdomain/g" /opt/tactical-rmm/mesh_data/config.json
+
+# Fix Permissions
+sudo chown -R $username:$username /opt/tactical-rmm/
+sudo chmod 755 -R /opt/tactical-rmm/
 
 # Updates Mesh_data config.json file port number
 sed -i 's/:4443\b/:443/g' "/opt/tactical-rmm/mesh_data/config.json"

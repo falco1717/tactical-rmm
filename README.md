@@ -1,26 +1,18 @@
-# Tactical-RMM
-This guide will walk you through installing Tactical-RMM within docker and having full support of traefik instead of nginx.
+# Tactical-RMM for Saltbox
+This script will install tactical-rmm and utilize the certs already created by Traefik and pass the traffic over to nginx.
 
-# Cert Dumper
-Run the cert dumper docker compose file first.
-After running the cert dumper container run the following commands.
+# Install
+Run the install.sh file 
 
-Replace **yourdomain.com.crt** and key with your domain. Example google.com.crt
+```Sudo Bash install.sh```
 
-`echo "CERT_PUB_KEY=$(sudo base64 -w 0 /opt/tactical-rmm/certs/certs/**yourdomain.com.crt**)" >> /opt/tacticalrmm/.env`
+The script will then create the cert dumper container and start converting the acme.json located at /opt/treafik/acme.json
 
-`echo "CERT_PRIV_KEY=$(sudo base64 -w 0 /opt/tactical-rmm/certs/private/**yourdomain.com.key**)" >> /opt/tacticalrmm/.env`
+upon converting the certs it will wait for 30 seconds to ensure the files are generated and then copy the domain cert data to the .env file
 
-# Tactical-RMM Compose
-Once you verify the .env file has your certs then you are good to start editing the tactical-rmm .env file.
-You need to edit the username and passwords located in the .env file.
-After you edit the username and passwords you will need to run the traefik cert dumper container and the echo commands to add the cert keys to the .env file.
+User input will taken for domain name, username, and password entries inside the .env file
 
-After running the main docker-compose.yml you need to edit the mesh_data config.json
-`"tlsOffload": "dash.yourdomain.com",
-"certUrl": "https://dash.yourdomain.com:443",`
+Finally the Tactical-RMM docker containers will be built out.
 
-Restart the trmm-meshcentral container and you are good to go.
+Once the containers are built it will update the mesh-central config file and restart the container.
 
-# Traefik
-copy the rmm.yml file over to your traefik directory and update the domain name to be yours.

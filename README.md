@@ -21,7 +21,8 @@ by default the linux agents require you to pay for code-signing but by utilizing
 https://github.com/netvolt/LinuxRMM-Script
 
 # Download Script
-```wget https://raw.githubusercontent.com/netvolt/LinuxRMM-Script/main/rmmagent-linux.sh```
+```wget https://raw.githubusercontent.com/falco1717/tactical-rmm-saltbox/main/linux-agent/rmmagent-linux.sh```
+
 
 # Install Agent
 To install agent launch the script with this arguement:

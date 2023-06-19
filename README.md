@@ -32,37 +32,38 @@ The compiling can be quite long, don't panic and wait few minutes... USE THE 'SI
 
 The arguments are:
 
-2. System type
+1. System type
 
   Type of system. Can be 'amd64' 'x86' 'arm64' 'armv6'  
 
-3. Mesh agent
+2. Mesh agent
 
   The url given by mesh for installing new agent.
   Go to mesh.fqdn.com > Add agent > Installation Executable Linux / BSD / macOS > **Select the good system type**
   Copy **ONLY** the URL with the quote.
   
-4. API URL
+3. API URL
 
   Your api URL for agent communication usually https://api.fqdn.com.
   
-5. Client ID
+4. Client ID
 
   The ID of the client in wich agent will be added.
   Can be view by hovering the name of the client in the dashboard.
   
-6. Site ID
+5. Site ID
 
   The ID of the site in wich agent will be added.
   Can be view by hovering the name of the site in the dashboard.
   
-7. Auth Key
+6. Auth Key
 
   Authentification key given by dashboard by going to dashboard > Agents > Install agent (Windows) > Select manual and show
   Copy **ONLY** the key after *--auth*.
   
-8. Agent Type
+7. Agent Type
 
   Can be *server* or *workstation* and define the type of agent.
+  
 # Example
 ```./rmmagent-linux.sh install 'System type' 'Mesh agent' 'API URL' 'Client ID' 'Site ID' 'Auth Key' 'Agent Type'```

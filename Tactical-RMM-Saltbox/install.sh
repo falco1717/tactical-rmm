@@ -13,7 +13,7 @@ sed -i "s/yourdomain.com/$domain/g" tactical-rmm/.env
 sed -i "s/yourdomain.com/$domain/g" cert-dumper/cert.sh
 echo "Updated values:"
 cat tactical-rmm/.env
-cat cert.sh
+cat cert-dumper/cert.sh
 
 # Updates .env fike with exported cert information
 sh cert-dumper/cert.sh

@@ -27,9 +27,10 @@ https://github.com/netvolt/LinuxRMM-Script
 To install agent launch the script with this arguement:
 
 ```./rmmagent-linux.sh install 'System type' 'Mesh agent' 'API URL' 'Client ID' 'Site ID' 'Auth Key' 'Agent Type'```
+
 The compiling can be quite long, don't panic and wait few minutes... USE THE 'SINGLE QUOTES' IN ALL FIELDS!
 
-The argument are:
+The arguments are:
 
 System type
 Type of system. Can be 'amd64' 'x86' 'arm64' 'armv6'

@@ -17,7 +17,7 @@ Finally the Tactical-RMM docker containers will be built out.
 Once the containers are built it will update the mesh-central config file and restart the container.
 
 # Linux Agents
-by default the linux agents require you to pay for code-signing but by utilizing Netvolt's script you can add linux agents without code signing. 
+By default the linux agents require you to pay for code-signing but thanks to Netvolt's script you can add linux agents without code signing. 
 https://github.com/netvolt/LinuxRMM-Script
 
 # Download Script

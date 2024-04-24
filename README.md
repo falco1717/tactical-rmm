@@ -10,7 +10,7 @@ The script will then create the cert dumper container and start converting the a
 
 upon converting the certs it will wait for 30 seconds to ensure the files are generated and then copy the domain cert data to the .env file
 
-User input will taken for domain name, username, and password entries inside the .env file
+The script will then grab the domain, username, and password for your system from /srv/git/saltbox/accounts.yml
 
 Finally the Tactical-RMM docker containers will be built out.
 

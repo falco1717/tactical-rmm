@@ -18,7 +18,7 @@ cat cert-dumper/cert.sh
 cp traefik/rmm.yml /opt/traefik/
 sed -i "s/yourdomain.com/$domain/g" /opt/traefik/rmm.yml
 
-# Updates .env fike with exported cert information
+# Updates .env file with exported cert information
 sh cert-dumper/cert.sh
 
 # User input to update username in tactical-rmm .env file

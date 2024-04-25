@@ -38,6 +38,8 @@ services:
       - /etc/passwd:/etc/passwd:ro
     networks:
       - api-db
+    labels:
+      diun.enable: "true"
 
   # redis container for celery tasks
   tactical-redis:
@@ -51,6 +53,8 @@ services:
       - /etc/passwd:/etc/passwd:ro
     networks:
       - redis
+    labels:
+      diun.enable: "true"
 
   # used to initialize the docker environment
   tactical-init:
@@ -80,6 +84,8 @@ services:
       - /opt/tactical-rmm/mesh_data:/meshcentral-data
       - /opt/tactical-rmm/mongo_data:/mongo/data/db
       - /opt/tactical-rmm/redis_data:/redis/data
+    labels:
+      diun.enable: "true"
 
   # nats
   tactical-nats:
@@ -98,6 +104,8 @@ services:
       proxy:
         aliases:
           - ${API_HOST}
+    labels:
+      diun.enable: "true"
 
   # meshcentral container
   tactical-meshcentral:
@@ -124,6 +132,8 @@ services:
       - /opt/tactical-rmm/mesh_data:/home/node/app/meshcentral-data
     depends_on:
       - tactical-mongodb
+    labels:
+      diun.enable: "true"
 
   # mongodb container for meshcentral
   tactical-mongodb:
@@ -139,7 +149,9 @@ services:
       - mesh-db
     volumes:
       - /opt/tactical-rmm/mongo_data:/data/db
-
+    labels:
+      diun.enable: "true"
+      
   # container that hosts vue frontend
   tactical-frontend:
     container_name: trmm-frontend
@@ -152,7 +164,9 @@ services:
       - /opt/tactical-rmm/tactical_data:/opt/tactical
     environment:
       API_HOST: ${API_HOST}
-
+    labels:
+      diun.enable: "true"
+      
   # container for django backend
   tactical-backend:
     container_name: trmm-backend
@@ -168,6 +182,8 @@ services:
       - /opt/tactical-rmm/tactical_data:/opt/tactical
     depends_on:
       - tactical-postgres
+    labels:
+      diun.enable: "true"
 
   # container for django websockets connections
   tactical-websockets:
@@ -185,6 +201,8 @@ services:
     depends_on:
       - tactical-postgres
       - tactical-backend
+    labels:
+      diun.enable: "true"
 
   # container for tactical reverse proxy
   tactical-nginx:
@@ -208,6 +226,8 @@ services:
           - ${MESH_HOST}
     volumes:
       - /opt/tactical-rmm/tactical_data:/opt/tactical
+    labels:
+      diun.enable: "true"
 
   # container for celery worker service
   tactical-celery:
@@ -225,6 +245,8 @@ services:
     depends_on:
       - tactical-postgres
       - tactical-redis
+    labels:
+      diun.enable: "true"
 
   # container for celery beat service
   tactical-celerybeat:
@@ -240,5 +262,7 @@ services:
     volumes:
       - /opt/tactical-rmm/tactical_data:/opt/tactical
     depends_on:
+    labels:
+      diun.enable: "true"
       - tactical-postgres
       - tactical-redis

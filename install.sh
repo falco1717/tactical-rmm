@@ -30,7 +30,7 @@ echo "Updated values:"
 cat tactical-rmm/.env
 cat cert-dumper/cert.sh
 
-# Copies Traefik rules ovwr for sub domain forwarding with nginx
+# Copies Traefik rules over for sub domain forwarding with nginx
 cp traefik/rmm.yml /opt/traefik/
 sed -i "s/yourdomain.com/$domain/g" /opt/traefik/rmm.yml
 

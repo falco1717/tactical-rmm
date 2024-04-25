@@ -262,7 +262,7 @@ services:
     volumes:
       - /opt/tactical-rmm/tactical_data:/opt/tactical
     depends_on:
-    labels:
-      diun.enable: "true"
       - tactical-postgres
       - tactical-redis
+    labels:
+      diun.enable: "true"

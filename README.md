@@ -47,7 +47,7 @@ The arguments are:
   
 3. API URL
 
-  Your api URL for agent communication usually https://api.fqdn.com.
+  Your api URL for agent communication usually https://api.yourdomain.com.
   
 4. Client ID
 

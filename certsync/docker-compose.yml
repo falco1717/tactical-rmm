@@ -1,0 +1,30 @@
+version: "3.5"
+services:
+  certsync:
+    image: stedolan/jq
+    labels:
+      - "certsync=true"
+    entrypoint: |
+      /bin/bash -c "
+        jq -r '.cfdns.Certificates[] | select(.domain.main==\"yourdomain.com\") | .certificate' /data/acme.json | base64 -d > /out/fullchain.pem;
+        jq -r '.cfdns.Certificates[] | select(.domain.main==\"yourdomain.com\") | .key' /data/acme.json | base64 -d > /out/privkey.pem;
+      "
+    volumes:
+      - /opt/traefik:/data:ro # Update with the actual path to your Traefik directory
+      - /opt/tactical-rmm/tactical_data/certs:/out       # Update with the actual path where you want to output the certificates
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.role==manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 1
+        window: 86400s
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: '32M'
+        reservations:
+          cpus: '0.025'
+          memory: '16M'

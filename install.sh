@@ -23,6 +23,9 @@ sed -i "s/password/$password/g" tactical-rmm/.env
 # Update values in cert.sh file
 sed -i "s/yourdomain.com/$domain/g" cert-dumper/cert.sh
 
+# Update values in certsync docker compose file
+sed -i "s/yourdomain.com/$domain/g" certsync/docker-compose.yml
+
 echo "Updated values:"
 cat tactical-rmm/.env
 cat cert-dumper/cert.sh
@@ -49,5 +52,15 @@ sudo chmod 755 -R /opt/tactical-rmm/
 # Updates Mesh_data config.json file port number
 sed -i 's/:4443\b/:443/g' "/opt/tactical-rmm/mesh_data/config.json"
 
-# Restarts mesh central containee
+# Creates CertSync container to update nginx certificates.
+docker compose -f certsync/docker-compose.yml up -d
+
+# Creates a cron job to run the container everyday at 2am
+# The cron job command
+cron_job="0 2 * * * /bin/bash -c 'container_id=\$(docker ps -aqf \"label=certsync=true\" --filter \"status=exited\"); if [ -n \"\$container_id\" ]; then docker start \$container_id; fi'"
+
+# Add the cron job to the crontab
+(crontab -l 2>/dev/null; echo "$cron_job") | crontab -
+
+# Restarts mesh central container
 docker restart trmm-meshcentral

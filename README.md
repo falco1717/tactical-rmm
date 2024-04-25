@@ -14,6 +14,8 @@ The script will then grab the domain, username, and password for your system fro
 
 Finally the Tactical-RMM docker containers will be built out.
 
+another container called certsync will be created with a cron job to start it at 2am everyday to ensure that the ssl certs are updated in nginx.
+
 Once the containers are built it will update the mesh-central config file and restart the container.
 
 # Linux Agents

@@ -14,8 +14,8 @@ fi
 if [[ $1 == "help" ]]; then
         echo "There is help but more information is available at github.com/ZoLuSs/rmmagent-script"
         echo ""
-        echo "List of INSTALL/UPDATE argument (no argument name):"
-        echo "Arg 1: 'install' or 'update'"
+        echo "List of INSTALL argument (no argument name):"
+        echo "Arg 1: 'install'"
         echo "Arg 2: System type 'amd64' 'x86' 'arm64' 'armv6'"
         echo "Arg 3: Mesh agent URL"
         echo "Arg 4: API URL"
@@ -24,12 +24,14 @@ if [[ $1 == "help" ]]; then
         echo "Arg 7: Auth Key"
         echo "Arg 8: Agent Type 'server' or 'workstation'"
         echo ""
+        echo "List of UPDATE argument (no argument name)"
+        echo "Arg 1: 'update'"
+        echo "Arg 2: System type 'amd64' 'x86' 'arm64' 'armv6'"
+        echo ""
         echo "List of UNINSTALL argument (no argument name):"
         echo "Arg 1: 'uninstall'"
         echo "Arg 2: Mesh agent FQDN (i.e. mesh.domain.com)"
         echo "Arg 3: Mesh agent id (The id needs to have single quotes around it)"
-        echo ""
-        echo "Only argument 1 is needed for update"
         echo ""
         exit 0
 fi
@@ -41,6 +43,13 @@ if [[ $1 != "install" && $1 != "update" && $1 != "uninstall" ]]; then
 fi
 
 if [[ $1 == "install" && $2 == "" ]]; then
+        echo "Argument 2 (System type) is empty !"
+        echo "Type help for more information"
+        exit 1
+fi
+
+
+if [[ $1 == "update" && $2 == "" ]]; then
         echo "Argument 2 (System type) is empty !"
         echo "Type help for more information"
         exit 1
@@ -117,35 +126,73 @@ rmm_agent_type=$8
 ## Uninstall var for easy scription
 mesh_fqdn=$2
 mesh_id=$3
+## Setting Go verison to be installed
+go_version="1.21.5"
 
-go_url_amd64="https://go.dev/dl/go1.18.3.linux-amd64.tar.gz"
-go_url_x86="https://go.dev/dl/go1.18.3.linux-386.tar.gz"
-go_url_arm64="https://go.dev/dl/go1.18.3.linux-arm64.tar.gz"
-go_url_armv6="https://go.dev/dl/go1.18.3.linux-armv6l.tar.gz"
+go_url_amd64="https://go.dev/dl/go$go_version.linux-amd64.tar.gz"
+go_url_x86="https://go.dev/dl/go$go_version.linux-386.tar.gz"
+go_url_arm64="https://go.dev/dl/go$go_version.linux-arm64.tar.gz"
+go_url_armv6="https://go.dev/dl/go$go_version.linux-armv6l.tar.gz"
 
 function go_install() {
-        ## Installing golang
-        case $system in
-        amd64)
-          wget -O /tmp/golang.tar.gz $go_url_amd64
+        if ! command -v go &> /dev/null; then
+                ## Installing golang
+                case $system in
+                amd64)
+                wget -O /tmp/golang.tar.gz $go_url_amd64
+                        ;;
+                x86)
+                wget -O /tmp/golang.tar.gz $go_url_x86
                 ;;
-        x86)
-          wget -O /tmp/golang.tar.gz $go_url_x86
-        ;;
-        arm64)
-          wget -O /tmp/golang.tar.gz $go_url_arm64
-        ;;
-        armv6)
-          wget -O /tmp/golang.tar.gz $go_url_armv6
-        ;;
-        esac
-        
-        tar -xvzf /tmp/golang.tar.gz -C /usr/local/
-        rm /tmp/golang.tar.gz
-        export GOPATH=/usr/local/go
-        export GOCACHE=/root/.cache/go-build
+                arm64)
+                wget -O /tmp/golang.tar.gz $go_url_arm64
+                ;;
+                armv6)
+                wget -O /tmp/golang.tar.gz $go_url_armv6
+                ;;
+                esac
+                
+                rm -rvf /usr/local/go/
+                tar -xvzf /tmp/golang.tar.gz -C /usr/local/
+                rm /tmp/golang.tar.gz
+                export GOPATH=/usr/local/go
+                export GOCACHE=/root/.cache/go-build
 
-        echo "Golang Install Done !"
+                echo "Go is installed (version $go_current_version)."
+        else
+                # Get the current version of Go installed
+                go_current_version=$(go version | awk '{print $3}' | sed 's/go//')
+
+                if [ "$go_current_version" != "$go_version" ]; then
+                        echo "Version mismatch. Current installed version is $go_current_version. Desired version is $go_version."
+                        echo "Installing Go $go_version..."
+                        ## Installing golang
+                        case $system in
+                        amd64)
+                        wget -O /tmp/golang.tar.gz $go_url_amd64
+                                ;;
+                        x86)
+                        wget -O /tmp/golang.tar.gz $go_url_x86
+                        ;;
+                        arm64)
+                        wget -O /tmp/golang.tar.gz $go_url_arm64
+                        ;;
+                        armv6)
+                        wget -O /tmp/golang.tar.gz $go_url_armv6
+                        ;;
+                        esac
+
+                        rm -rvf /usr/local/go/
+                        tar -xvzf /tmp/golang.tar.gz -C /usr/local/
+                        rm /tmp/golang.tar.gz
+                        export GOPATH=/usr/local/go
+                        export GOCACHE=/root/.cache/go-build
+
+                        echo "Go $go_version installed."
+                else
+                        echo "Go is up to date (version $go_current_version)."
+                fi
+        fi
 }
 
 function agent_compile() {

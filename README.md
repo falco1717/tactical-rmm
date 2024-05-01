@@ -25,6 +25,9 @@ https://github.com/netvolt/LinuxRMM-Script
 # Download Script
 ```wget https://raw.githubusercontent.com/falco1717/tactical-rmm-saltbox/main/linux-agent/rmmagent-linux.sh```
 
+# Make the Script Exectuable
+```sudo chmod +x rmmagent-linux.sh```
+
 
 # Install Agent
 To install agent launch the script with this arguement:

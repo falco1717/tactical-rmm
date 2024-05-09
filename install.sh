@@ -3,6 +3,8 @@
 docker compose -f cert-dumper/docker-compose.yml up -d
 sleep 30
 
+#Installs DDNS container to add DNS entries into Cloudflare
+sb install ddns
 
 # Get the domain, username, and password from the accounts.yml file
 domain=$(awk '$1=="user:" {getline; while ($1!="domain:") {getline}; print $2}' /srv/git/saltbox/accounts.yml)

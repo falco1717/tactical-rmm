@@ -65,6 +65,12 @@ cron_job="0 2 * * * /bin/bash -c 'container_id=\$(docker ps -aqf \"label=certsyn
 # Restarts mesh central container
 docker restart trmm-meshcentral
 
-# Install RustDesk Containers
-sudo chmod +x rustdesk/secretgenerator.sh
-sh rustdesk/secretgenerator.sh
+# Generate a random key for rustdesk
+RANDOM_KEY=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20)
+
+# Write the random key to .env file
+echo "SECRET_KEY=$RANDOM_KEY" > rustdesk/.env
+
+#Install rustdesk Containers
+docker compose -f rustdesk/docker-compose.yml up -d
+

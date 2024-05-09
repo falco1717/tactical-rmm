@@ -4,7 +4,7 @@ This script will install tactical-rmm and utilize the certs already created by T
 # Install
 Run the install.sh file 
 
-```Sudo Bash install.sh```
+```sudo bash install.sh```
 
 The script will then create the cert dumper container and start converting the acme.json located at /opt/treafik/acme.json
 

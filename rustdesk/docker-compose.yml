@@ -4,7 +4,7 @@ services:
   hbbs:
     container_name: hbbs
     image: rustdesk/rustdesk-server:latest
-    command: sh -c 'hbbs -k $SECRET_KEY'
+    command: 'hbbs -k $SECRET_KEY'
     environment:
       - SECRET_KEY=random_secret
     volumes:
@@ -21,7 +21,7 @@ services:
   hbbr:
     container_name: hbbr
     image: rustdesk/rustdesk-server:latest
-    command: sh -c 'hbbr -k $SECRET_KEY'
+    command: 'hbbr -k $SECRET_KEY'
     environment:
       - SECRET_KEY=random_secret
     volumes:

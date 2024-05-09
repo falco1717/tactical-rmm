@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  hbbs:
+    container_name: hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: sh -c 'hbbs -k $SECRET_KEY'
+    environment:
+      - SECRET_KEY=random_secret
+    volumes:
+      - /opt/rustdesk:/root
+    network_mode: "saltbox"
+    ports:
+      - "21115-21116:21115-21116/tcp"
+      - "21118:21118/tcp"
+      - "21116:21116/udp"
+    depends_on:
+      - hbbr
+    restart: unless-stopped
+
+  hbbr:
+    container_name: hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: sh -c 'hbbr -k $SECRET_KEY'
+    environment:
+      - SECRET_KEY=random_secret
+    volumes:
+      - /opt/rustdesk:/root
+    network_mode: "saltbox"
+    ports:
+      - "21117:21117/tcp"
+      - "21119:21119/tcp"
+    restart: unless-stopped

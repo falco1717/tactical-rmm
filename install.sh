@@ -64,3 +64,7 @@ cron_job="0 2 * * * /bin/bash -c 'container_id=\$(docker ps -aqf \"label=certsyn
 
 # Restarts mesh central container
 docker restart trmm-meshcentral
+
+# Install RustDesk Containers
+sudo chmod +x rustdesk/secretgenerator.sh
+sh rustdesk/secretgenerator.sh

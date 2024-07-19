@@ -67,6 +67,56 @@ cron_job="0 2 * * * /bin/bash -c 'container_id=\$(docker ps -aqf \"label=certsyn
 # Restarts mesh central container
 docker restart trmm-meshcentral
 
+# Function to add tactical_update function to .bashrc
+add_tactical_update_to_bashrc() {
+    local BASHRC_FILE="/home/$username/.bashrc"
+
+    # Check if the .bashrc file exists for the user
+    if [ ! -f "$BASHRC_FILE" ]; then
+        echo ".bashrc file not found for user $username"
+        return 1
+    fi
+
+    # Check if the function already exists in .bashrc
+    if grep -q "tactical_update()" "$BASHRC_FILE"; then
+        echo "tactical_update function already exists in .bashrc"
+        return 0
+    fi
+
+    # Append the tactical_update function to .bashrc
+    cat <<'EOF' >> "$BASHRC_FILE"
+
+# Tactical updates #
+tactical_update() {
+    cd /opt/tacticalrmm/tactical-rmm-saltbox/tactical-rmm || { echo "Directory not found!"; return 1; }
+
+    # Check if docker-compose.yml exists before attempting to move it
+    if [ -f docker-compose.yml ]; then
+        sudo mv docker-compose.yml docker-compose.yml.old || { echo "Failed to move docker-compose.yml"; return 1; }
+    else
+        echo "docker-compose.yml not found!"
+    fi
+
+    # Download the correct docker-compose.yml file
+    sudo wget https://raw.githubusercontent.com/falco1717/tactical-rmm-saltbox/main/tactical-rmm/docker-compose.yml -O docker-compose.yml || { echo "Failed to download docker-compose.yml"; return 1; }
+
+    # Pull the latest Docker images
+    sudo docker compose pull || { echo "docker compose pull failed"; return 1; }
+
+    # Shut down the current Docker containers
+    sudo docker compose down || { echo "docker compose down failed"; return 1; }
+
+    # Start the new Docker containers and remove orphan containers
+    sudo docker compose up -d --remove-orphans || { echo "docker compose up failed"; return 1; }
+}
+EOF
+
+    echo "Added tactical_update function to $BASHRC_FILE"
+}
+
+# Call the function to add tactical_update to .bashrc
+add_tactical_update_to_bashrc
+
 # Generate a random key for rustdesk
 RANDOM_KEY=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20)
 

@@ -88,7 +88,15 @@ add_tactical_update_to_bashrc() {
 
 # Tactical updates #
 tactical_update() {
-    cd /opt/tacticalrmm/tactical-rmm-saltbox/tactical-rmm || { echo "Directory not found!"; return 1; }
+    local DIR="/opt/tacticalrmm/tactical-rmm-saltbox/tactical-rmm"
+
+    # Check if the directory exists, if not create it
+    if [ ! -d "$DIR" ]; then
+        echo "Directory not found! Creating directory..."
+        sudo mkdir -p "$DIR" || { echo "Failed to create directory"; return 1; }
+    fi
+
+    cd "$DIR" || { echo "Failed to navigate to directory"; return 1; }
 
     # Check if docker-compose.yml exists before attempting to move it
     if [ -f docker-compose.yml ]; then

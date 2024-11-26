@@ -1,4 +1,3 @@
-version: "3.7"
 services:
 ##Copy the acme.json of Traefik2 at volumes: (userdir/docker/rmm in this case)
   traefik-certs-dumper:
